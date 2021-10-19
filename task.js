@@ -11,13 +11,16 @@ What would you like to do (Please enter one of the options below):
 `;
 
 // Array for storing taks
-const task = [
+const tasks = [
     `Charge MacBook`,
     `Master JavaScript`
 ];
 
 // For Displaying tasks to the user
 let showTasks = ``;
+
+// For storing the value of a new task
+let newTask; 
 
 // Displays the menu for the user to select an option. Also, sets the user's response to the userInput variable
 let userInput = prompt(menu);
@@ -40,6 +43,19 @@ while (userInput !== `CLOSE`) {
         
         // Set the value of the showTasks string variable back to an empty string
         showTasks = "";
+    }
+
+    // Checks if the user entered NEW
+    if (userInput === `NEW`){
+
+        // Prompts the user to enter a new task and stories their response
+        newTask = prompt(`Please enter the new task`);
+
+        // Alerts the user that new task has been added
+        alert(`"${newTask}" has been added!`);
+
+        // Adds the user's entry as a new item at the end of the new task array
+        tasks.push(newTask);
     }
 
     // Displays the menu again
