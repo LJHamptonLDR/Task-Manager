@@ -29,12 +29,13 @@ let num;
 let removed;
 
 // Displays the menu for the user to select an option. Also, sets the user's response to the userInput variable
-let userInput = prompt(menu);
+// Using the toUpperCase method to convert the user's response to UPPERCASE
+let userInput = prompt(menu).toUpperCase();
 
-// Loops and continues to display the menu until the user ends/closes the Task Manager (AKA Until the user enters CLOSE)
+// Loops and continues to display the menu until the user ends/closes the Task Manager (AKA Until the user enters CLOSE (UPPERCASE or lowercase))
 while (userInput !== `CLOSE`){
 
-  // Checks if user entered TASKS
+  // Checks if user entered TASKS (UPPERCASE or lowercase)
   if (userInput === `TASKS`){
 
     // The For Of loop is used here to concatenate each task (AKA Item) in the tasks array to the showTasks string variable
@@ -51,11 +52,16 @@ while (userInput !== `CLOSE`){
     showTasks = "";
   }
   
-  // Checks if user entered NEW
+  // Checks if user entered NEW (UPPERCASE or lowercase)
   if (userInput === `NEW`){
 
     // Prompts the user to enter a new task and stores their response
     newTask = prompt(`Please enter the new task:`);
+
+    // Continues looping and prompting the user until something is entered (NOTE: If the user does NOT type anything and just clicks OK, then the value returned is an empty string)
+    while (newTask === ``){
+      newTask = prompt(`Please enter the new task:`);
+    }
 
     // Alerts the user that their new task has been added
     alert(`"${newTask}" has been added!`);
@@ -64,7 +70,7 @@ while (userInput !== `CLOSE`){
     tasks.push(newTask);
   }
 
-  // Checks if the user entered REMOVE
+  // Checks if the user entered REMOVE (UPPERCASE or lowercase)
   if (userInput === `REMOVE`){
 
     // Concatenates each task/item in the tasks array to the showTasks string variable. Also, sets/displays a number for each task.
@@ -75,23 +81,39 @@ while (userInput !== `CLOSE`){
     }
 
     // Prompts the user to enter a number and stores their response to the num variable.
-    // Using \n to create a new line (AKA Line Break)
-    // Subtracting 1 fro  the user's entry so that is matches the index of the item that the user wants to remove from the tasks array.
-    // Just like with ParseInt, JavaScript will attempt to convert a string into a number when  you try to subtract from it. So ParserInt is not necessary here.
-    num = prompt(`Please enter a number to remove\n${showTasks}`) - 1;
-    
-    // Removes the task/item selected by the user from the task array. Also, set the task/item that was removed to the REMOVED variable (NOTE: Using index on the REMOVED variable because splice returns the value that is removed as an item in an array)
+    // Using \n to create a new line (AKA Line break)
+    // Subtracting 1 from the user's entry so that it matches the index of the item that the user wants to remove from the tasks array.
+    // Just like with ParseInt, JavaScript will attempt to convert a string into a number when you try to Subtract from it. So ParseInt is not necessary here.
+    num = prompt(`Please enter a number to remove:\n${showTasks}`) - 1;
+
+    // Loop that continues looping until the user enters a valid number
+    // Verifies the user entered a whole (AKA Not a decimal) that is one of the options in the prompt (AKA Within the number range from 1 to length of the tasks array)
+    // The first condition (Math.floor(num) !== num) checks to see if the user entered a decimal
+    // The second condition (num < 0) checks to see if the user entered 0 or a negative number
+    // The third condition (num >= tasks.length) checks to see if the user entered a number that is higher than those that were displayed to the user
+    // The fourth condition (!num) checks to see if the user entered something that cannot be converted into a number which causes the value of the NUM variable to be NaN (Not A Number) which has a default boolean value of false
+    while (Math.floor(num) !== num || num < 0 || num >= tasks.length || !num){
+
+      // Alerts the user that they have NOT entered a valid number
+      alert(`Not a valid entry`);
+
+      // Prompts the user again as well as attempts to subtract 1 from their response
+      num = prompt(`Please enter a number to remove:\n${showTasks}`) - 1;
+    }
+
+    // Removes the task/item selected by the user from the tasks array. Also, sets the task/item that was removed to the REMOVED variable (NOTE: Splice returns the value(s) that is removed as an item(s) in an array)
     removed = tasks.splice(num, 1);
 
-    // Alerts use with the task/item that has been removed (NOTE: Using index on the REMOVED variable because splice returns the value that is removed as an item in an array)
+    // Alerts user with the task/item that has been removed (NOTE: Using index on the REMOVED variable here because splice returns the value that is removed as an item in an array)
     alert(`"${removed[0]}" has been removed`);
 
-    // Sets the value of the the showTasks string variable back to an empty string
-    showTask = ``;
+    // Sets the value of the showTasks string variable back to an empty string
+    showTasks = ``;
   }
 
   // Displays the menu again
-  userInput = prompt(menu);
+  // Using the toUpperCase method to convert the user's response to UPPERCASE
+  userInput = prompt(menu).toUpperCase();
 }
 
 // Alerts the user that they have closed the program
